@@ -19,26 +19,17 @@ def main():
 
     while True:
         try:
-
             message_bytes = socket.recv()
-            
             message = message_bytes.decode('utf-8')
-            
             try:
-                data = json.loads(message)
-                
                 with open(OUTPUT_FILENAME, 'a', encoding='utf-8') as f:
                     f.write(message + '\n') 
-                    
                 print("Получены и сохранены новые GPS-данные)")
-                
             except json.JSONDecodeError:
                 print("Пришли неверные данные")
-
         except KeyboardInterrupt:
             print("\nСервер остановлен пользователем.")
             break
-
     socket.close()
     context.term()
 
