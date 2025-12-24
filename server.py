@@ -19,7 +19,6 @@ def main():
     try:
         socket.bind(BIND_ADDRESS)
         print("ZMQ PULL-сервер запущен и слушает на порту 5555...")
-        print("Полученные данные будут записываться в файл locations.json")
     except zmq.error.ZMQError as e:
         print("Ошибка привязки сокета")
         return
@@ -30,9 +29,13 @@ def main():
             data = json.loads(message_bytes)
             lat = data['latitude']
             lon = data['longitude']
+            rsrp = data['RSRP']
+            rsrq = data['RSRQ']
+            rssi = data['RSSI']
             timest = data['timestamp']
 
-            curs.execute("INSERT INTO user_info (Lat, Lon, Timestamp) values (%s, %s, %s)", (lat, lon, timest))
+            curs.execute("INSERT INTO info_abonent (lat, lon, rsrp, rsrq, rssi, timestamp) " \
+            "values (%s, %s, %s, %s, %s, %s)", (lat, lon, rsrp, rsrq, rssi, timest))
             conn.commit()
 
             print("Server recv data")
