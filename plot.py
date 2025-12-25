@@ -1,21 +1,12 @@
 import psycopg2
 import matplotlib.pyplot as plt
 import time
-from datetime import datetime
-
-DB_CONFIG = {
-    "dbname": "db_server",
-    "host": "localhost",
-    "user": "postgres",
-    "password": "postgres1234",
-    "port": "5432"
-}
 
 REFRESH_INTERVAL = 2  
 
 def main():
     try:
-        conn = psycopg2.connect(**DB_CONFIG)
+        conn = psycopg2.connect(dbname = "db_server", host= "localhost", user="postgres", password="postgres1234", port="5432")
         curs = conn.cursor()
         print("Подключение к БД установлено")
         
@@ -64,8 +55,7 @@ def main():
                         edgecolors='white',
                         linewidth=0.5
                     )
-                    
-                    # Настраиваем оси
+
                     ax.set_title(f"Уровень сигнала RSRP в реальном времени")
                     ax.set_xlabel("Долгота (Longitude)")
                     ax.set_ylabel("Широта (Latitude)")
